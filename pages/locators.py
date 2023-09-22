@@ -4,6 +4,7 @@ class AuthLPageLocators():
     username_field = (By.ID, 'username')
     passw_field = (By.ID, 'password')
     submit_btn = (By.ID, 'kc-login')
+    remember_checkbox = (By.NAME, 'rememberMe')
     forgot_pass_link = (By.ID, 'forgot_password')
     register_link = (By.ID, 'kc-register')
     phone_tab = (By.ID, 't-btn-tab-phone')

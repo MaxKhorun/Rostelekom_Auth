@@ -10,3 +10,4 @@ class BasePage(object):
     def get_relative_link(self):
         url = urlparse(self.driver.current_url)
         return url.path
+

@@ -4,10 +4,21 @@ import pytest
 from selenium import webdriver
 
 
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    # This function helps to detect that some test failed
+    # and pass this information to teardown:
+
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, "rep_" + rep.when, rep)
+    return rep
+
+
 @pytest.fixture()
 def web_driver(request):
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     w_driver = webdriver.Chrome(options=options)

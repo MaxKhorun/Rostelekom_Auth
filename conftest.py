@@ -1,7 +1,24 @@
+import os
 import uuid
 
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+
+base_url = os.getenv('URL')
+
+
+@pytest.fixture()
+def set_driver(request):
+    options = webdriver.ChromeOptions()
+    # options.add_argument('--headless')
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
+    service_set = Service(r"C:\SF\GITHUB\chromedriver_win32\chromedriver-win64\chromedriver-win64\chromedriver.exe")
+    w_driver = webdriver.Chrome(service=service_set, options=options)
+    w_driver.maximize_window()
+
+    return w_driver
 
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
@@ -16,13 +33,8 @@ def pytest_runtest_makereport(item, call):
 
 
 @pytest.fixture()
-def web_driver(request):
-    options = webdriver.ChromeOptions()
-    # options.add_argument('--headless')
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-gpu")
-    w_driver = webdriver.Chrome(options=options)
-    w_driver.set_window_size(1200, 800)
+def web_driver(set_driver, request):
+    w_driver = set_driver
 
     yield w_driver
 
@@ -33,3 +45,5 @@ def web_driver(request):
         print('Browser logs:')
         for log in w_driver.get_log('browser'):
             print(log)
+
+    w_driver.quit()

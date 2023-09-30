@@ -1,5 +1,6 @@
 import os
 import uuid
+from datetime import datetime
 
 import pytest
 from selenium import webdriver
@@ -47,3 +48,14 @@ def web_driver(set_driver, request):
             print(log)
 
     w_driver.quit()
+
+
+@pytest.fixture(autouse=True)
+def time_for_test():
+    start_time = datetime.now()
+
+    yield
+
+    end_time = datetime.now()
+
+    print(f'\nВремя выполнения теста: {end_time - start_time}')

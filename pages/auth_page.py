@@ -45,6 +45,7 @@ class MainAuthPage(WebPage):
     code_fields = WebElement(class_name='code-input-container')
     six_wind_for_code = ['rt-code-0', 'rt-code-1', 'rt-code-2', 'rt-code-3', 'rt-code-4', 'rt-code-5']
     resend_btn = WebElement(name='otp_resend_code')
+    change_address = WebElement(class_name='otp-code-form__back-btn')
 
     # reset page
     #    text field: Восстановление пароля:

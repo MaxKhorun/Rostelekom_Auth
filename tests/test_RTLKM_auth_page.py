@@ -449,3 +449,43 @@ def test_auth_temp_code_to_email(web_driver, input_data):
     else:
         print('Переход на страницу невозможен - кнопка отсутсвует на странице.')
         raise AssertionError
+
+
+@parametrize('input_data', [login_email_2, phone_1,''], ids=['correct phone number', 'empty'])
+def test_change_phone_adress(web_driver, input_data):
+    page = MainAuthPage(web_driver)
+
+    if page.btn_to_get_code_auth_page.is_visible():
+        page.btn_to_get_code_auth_page.click()
+        url = page.get_current_url()
+        if page.captcha.is_visible():
+            print('Captcha block is on the page')
+            raise AssertionError
+
+        page.input_field = input_data
+        page.submit_btn_to_get_code.click()
+
+        if (page.get_current_url() != url) and (page.text_above.get_text() == 'Код подтверждения отправлен'):
+            hint_text = page.hint_text.get_text()
+
+            assert phone_1 in hint_text \
+                   and page.code_fields.is_visible()
+            assert web_driver.find_element(By.CLASS_NAME, 'code-input-container__timeout').is_displayed() \
+                and web_driver.find_element(By.CLASS_NAME, 'code-input-container__timeout')
+
+            page.change_address.click()
+            assert web_driver.find_element(By.ID, 'card-container__title') == 'Авторизация по коду' \
+                and web_driver.find_element(By.CLASS_NAME, 'otp-form__timeout')
+
+            page.username_field = input_data
+            page.submit_btn_to_get_code.click()
+
+            assert url == page.get_current_url()
+
+        if page.get_current_url() == url and \
+                web_driver.find_element(By.CLASS_NAME, 'rt-input-container__meta--error').is_displayed():
+            error_msg = web_driver.find_element(By.CLASS_NAME, 'rt-input-container__meta--error').text
+            assert error_msg == 'Введите телефон в формате +7ХХХХХХХХХХ или +375XXXXXXXXX, или email в формате example@email.ru'
+    else:
+        print('Переход на страницу невозможен - кнопка отсутствует на странице.')
+        raise AssertionError

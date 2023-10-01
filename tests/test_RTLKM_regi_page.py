@@ -67,35 +67,6 @@ def test_standard_registration(web_driver, contact_data, name, surname):
         page.screenshot(file_name='test_email_reg.png')
 
 
-"""@parametrize('contact_data', ['Remember.ever@me.com', '+79959112267'])
-@parametrize('name', ['НовыйОдин', 'НовыйДва'])
-@parametrize('surname', ['КлиентОдин', 'КлиентДва'])
-def test_standard_registration_negative(web_driver, contact_data, name, surname):
-# Дописать - параметризировать
-    page = MainRegistrationPage(web_driver)
-
-    page.register_link.click()
-    text_above = web_driver.find_element(By.CLASS_NAME, 'card-container__title').text
-
-    if text_above == 'Регистрация':
-
-        page.name_fld = name
-        page.surname_field = surname
-        page.adress_or_phone_fld = contact_data
-        page.passw_fld = '567890xcvbnmM'
-        page.passw_confirm_fld = '567890xcvbnmM'
-        page.submit_btn_reg.click()
-
-        assert web_driver.find_element(By.CLASS_NAME, 'card-container__title').text == 'Подтверждение email' \
-            or web_driver.find_element(By.CLASS_NAME, 'card-container__title').text == 'Подтверждение телефона' \
-            and web_driver.find_element(By.CLASS_NAME, 'code-input-container__code-input').is_displayed()
-
-    else:
-        print('Загрузилась страница: {0}'.format(page.get_current_url()))
-        page.screenshot(file_name='test_email_reg.png')
-"""
-
-
 def test_re_registration_same_phone(web_driver):
     page = MainRegistrationPage(web_driver)
 
@@ -167,3 +138,29 @@ def test_back_to_change_email_adress(web_driver, contact_data):
             page.change_adr_btn.click()
 
 
+@parametrize('contact_data', ['Remember.ever@me.com', '+79959112267'])
+@parametrize('name', ['НовыйОдин', 'НовыйДва'])
+@parametrize('surname', ['КлиентОдин', 'КлиентДва'])
+def test_standard_registration_negative(web_driver, contact_data, name, surname):
+# Дописать - параметризировать
+    page = MainRegistrationPage(web_driver)
+
+    page.register_link.click()
+    text_above = web_driver.find_element(By.CLASS_NAME, 'card-container__title').text
+
+    if text_above == 'Регистрация':
+
+        page.name_fld = name
+        page.surname_field = surname
+        page.adress_or_phone_fld = contact_data
+        page.passw_fld = '567890xcvbnmM'
+        page.passw_confirm_fld = '567890xcvbnmM'
+        page.submit_btn_reg.click()
+
+        assert web_driver.find_element(By.CLASS_NAME, 'card-container__title').text == 'Подтверждение email' \
+            or web_driver.find_element(By.CLASS_NAME, 'card-container__title').text == 'Подтверждение телефона' \
+            and web_driver.find_element(By.CLASS_NAME, 'code-input-container__code-input').is_displayed()
+
+    else:
+        print('Загрузилась страница: {0}'.format(page.get_current_url()))
+        page.screenshot(file_name='test_email_reg.png')

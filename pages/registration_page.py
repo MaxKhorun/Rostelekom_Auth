@@ -22,3 +22,4 @@ class MainRegistrationPage(WebPage):
     passw_confirm_fld = WebElement(id='password-confirm')
     submit_btn_reg = WebElement(class_name='register-form__reg-btn')
     change_adr_btn = WebElement(name='otp_back_phone')
+    errors_under_fields = WebElement(class_name='rt-input-container__meta--error')

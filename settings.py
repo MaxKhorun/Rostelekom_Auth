@@ -1,6 +1,6 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 login_email_1 = os.getenv(r"EMAIL_1")
 login_1 = os.getenv("LOGIN_FOR_EMAIL_1")
@@ -36,3 +36,4 @@ keys_web, keys_check_part = "https://key.rt.ru/", "key.rt.ru" # Ключ Web
 # test_neg_data
 
 long_email = 'ecvbaejkrbfvbaervbjhasdvcjarfvhgbaeruigbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbvyualerbvalebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhebhaerbvaerbvbaerkvbjkaerbvjkaerbvjkeabv@ghjkruoiwerhhfaowerhgivaololololololololololololololololol.ru'
+long_name = 'Ишмухостирунеканаданадридагуфолекуил'

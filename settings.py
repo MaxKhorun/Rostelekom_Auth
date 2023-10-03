@@ -1,6 +1,6 @@
 import os
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 login_email_1 = os.getenv(r"EMAIL_1")
 login_1 = os.getenv("LOGIN_FOR_EMAIL_1")

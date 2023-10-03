@@ -1,20 +1,17 @@
 import pytest
 from time import sleep
 
-from selenium.common import NoSuchElementException
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from pages.auth_page import MainAuthPage
-from pages.elements import WebElement
 from ..settings import phone_1, pass_phone_1, login_email_1, login_email_2, \
     passw_email_2, passw_email_1, login_1, login_phone_1, phone_2, long_email
 
 parametrize = pytest.mark.parametrize
 
 
-@parametrize('login_data', [phone_1, login_phone_1])
-@parametrize('passw_data', [pass_phone_1])
+@parametrize('login_data', [phone_1, login_phone_1], ids=['correct phone 1', 'correct login 1'])
+@parametrize('passw_data', [pass_phone_1], ids=['correct pass 1'])
 def test_auth_standard(web_driver, login_data, passw_data):
 
     page = MainAuthPage(web_driver)
@@ -451,7 +448,7 @@ def test_auth_temp_code_to_email(web_driver, input_data):
         raise AssertionError
 
 
-@parametrize('input_data', [login_email_2, phone_1,''], ids=['correct phone number', 'empty'])
+@parametrize('input_data', [login_email_2, phone_1, ''], ids=['correct email', 'correct phone number', 'empty'])
 def test_change_phone_adress(web_driver, input_data):
     page = MainAuthPage(web_driver)
 

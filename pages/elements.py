@@ -240,7 +240,7 @@ class ManyWebElements(WebElement):
 
         return elements
 
-    def _set_value(self, web_driver, value):
+    def _set_value(self, web_driver, value, clear=True):
         """ Note: this action is not applicable for the list of elements. """
         raise NotImplemented('This action is not applicable for the list of elements')
 

@@ -1,7 +1,7 @@
 import os
 
 from pages.base import WebPage
-from pages.elements import WebElement
+from pages.elements import WebElement, ManyWebElements
 
 
 class MainRegistrationPage(WebPage):
@@ -23,3 +23,7 @@ class MainRegistrationPage(WebPage):
     submit_btn_reg = WebElement(class_name='register-form__reg-btn')
     change_adr_btn = WebElement(name='otp_back_phone')
     errors_under_fields = WebElement(class_name='rt-input-container__meta--error')
+    all_errors_under_fields = ManyWebElements(class_name='rt-input-container__meta--error')
+    main_locator_f_field = ManyWebElements(class_name='rt-input__placeholder--top')
+    error_class = ManyWebElements(class_name='rt-input-container--error')
+    container_name = ManyWebElements(class_name='rt-input-container')

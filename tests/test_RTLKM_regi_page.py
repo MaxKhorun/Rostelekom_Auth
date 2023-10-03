@@ -19,8 +19,8 @@ def test_reg_empty_fields(web_driver):
         txt_err = []
         if url == page.get_current_url():
 
-            errors = web_driver.find_elements(By.CLASS_NAME, 'rt-input-container__meta--error')
-            txt_err = [errors[i].text for i in range(len(errors))]
+            errors = page.all_errors_under_fields.get_text()
+            txt_err = [errors[i] for i in range(len(errors))]
 
             if len(txt_err) == 0:
                 print('No errors on the page')
@@ -136,34 +136,42 @@ def test_back_to_change_email_adress(web_driver, contact_data):
             page.change_adr_btn.click()
 
 
-# @parametrize('contact_data', ['п@п.рф', long_email, 'йцукенгшщзх', 'qwertyuiop', '+73453425',
-#                               '88133453425', '8911011121213', '!"№;%:?*()_+@mail.ru'],
-#              ids=['кириллица.рф', 'very long email', 'кириллица', 'латиница', 'wrong number',
-#                   'city code number', 'long number', 'specials@mail.ru'])
-# @parametrize('name', ['А', 'АА', 'Аj', '!"№;%:?*()', '', '-', long_name],
-#              ids=['одна буква криллицей', '2 буквы кириллицей', '2 буквы: латиница и кириллица',
+@parametrize('contact_data', ['п@п.рф', long_email, 'йцукенгшщзх', 'qwertyuiop', '+73453425',
+                              '88133453425', '8911011121213', '!"№;%:?*()_+@mail.ru'],
+             ids=['кириллица.рф', 'very long email', 'кириллица', 'латиница', 'wrong number',
+                  'city code number', 'long number', 'specials@mail.ru'])
+@parametrize('name', ['А', 'Аj', '!"№;%:?*()', '', '-', long_name],
+             ids=['одна буква криллицей', '2 буквы: латиница и кириллица',
+                  'specials', 'empty', 'dash', 'long_name'])
+# @parametrize('surname', ['А', 'Аj', '!"№;%:?*()', '', '-', long_name],
+#              ids=['одна буква криллицей', '2 буквы: латиница и кириллица',
 #                   'specials', 'empty', 'dash', 'long_name'])
-# @parametrize('surname', ['А', 'АА', 'Аj', '!"№;%:?*()', '', '-', long_name],
-#              ids=['одна буква криллицей', '2 буквы кириллицей', '2 буквы: латиница и кириллица',
-#                   'specials', 'empty', 'dash', 'long_name'])
-# @parametrize('passw', ['ghdkjlH8', 'hdkjlH8', 'ghdkjl H8', 'ghdkjlH8ghdkjlH83r5t5', ''],
-#              ids=['good', 'to short', 'with space', 'to long', 'empty'])
-def test_negative_standard_registration(web_driver): #, contact_data, name, surname, passw
+@parametrize('passw', ['hdkjlH8', 'ghdkjl H8', 'ghdkjlH8ghdkjlH83r5t5', '', 'йцукенгшщзХ8'],
+             ids=['to short', 'with space', 'to long', 'empty', 'латиница'])
+# @parametrize('conf_passw', ['hdkjlH8', 'ghdkjl H8', 'ghdkjlH8ghdkjlH83r5t5', ''],
+#              ids=['to short', 'with space', 'to long', 'empty'])
+def test_negative_standard_registration(web_driver, contact_data, name, passw):
     page = MainRegistrationPage(web_driver)
 
-    page.register_link.click
+    page.register_link.click()
     text_above = web_driver.find_element(By.CLASS_NAME, 'card-container__title').text
 
     if text_above == 'Регистрация':
 
-        page.name_fld = long_name
-        page.surname_field = long_name
-        page.adress_or_phone_fld = 'п@п.рф'
-        page.passw_fld = 'ghdkjl H8'
-        page.passw_confirm_fld = 'ghdkjl H8'
+        page.name_fld = name
+        page.surname_field = name
+        page.adress_or_phone_fld = contact_data
+        page.passw_fld = passw
+        page.passw_confirm_fld = passw
         page.submit_btn_reg.click()
 
-        assert page.errors_under_fields.is_visible()
+        errors = [len(i) > 0 for i in page.all_errors_under_fields.get_text()]
+        fields_with_errors = {page.main_locator_f_field.get_text()[i]:
+                               ('rt-input-container--error' in page.container_name.get_attribute('class')[i]) for i in
+                           range(len(page.main_locator_f_field.get_text()))}
+        # True - type error, False - type correct
+        print(fields_with_errors)
+        assert len(errors) == 5
 
     else:
         print('Загрузилась страница: {0}'.format(page.get_current_url()))
